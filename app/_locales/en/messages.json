@@ -844,6 +844,10 @@
     "message": "Paste your private key string here:",
     "description": "For importing an account from a private key"
   },
+  "pasteDaoAddress": {
+    "message": "Paste your DAO address here:",
+    "description": "For importing an account from a DAO"
+  },
   "pasteSeed": {
     "message": "Paste your seed phrase here!"
   },

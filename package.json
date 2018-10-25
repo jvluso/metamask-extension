@@ -113,6 +113,7 @@
     "end-of-stream": "^1.1.0",
     "ensnare": "^1.0.0",
     "eslint-plugin-react": "^7.4.0",
+    "eth-aragon-keyring": "^1.0.0",
     "eth-bin-to-ops": "^1.0.1",
     "eth-block-tracker": "^4.1.0",
     "eth-contract-metadata": "github:MetaMask/eth-contract-metadata#master",

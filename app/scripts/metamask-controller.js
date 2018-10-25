@@ -50,7 +50,9 @@ const seedPhraseVerifier = require('./lib/seed-phrase-verifier')
 const log = require('loglevel')
 const TrezorKeyring = require('eth-trezor-keyring')
 const LedgerBridgeKeyring = require('eth-ledger-bridge-keyring')
-const HW_WALLETS_KEYRINGS = [TrezorKeyring.type, LedgerBridgeKeyring.type]
+const DebugKeyring = require('eth-debug-keyring')
+const AragonKeyring = require('eth-aragon-keyring')
+const HW_WALLETS_KEYRINGS = [TrezorKeyring.type, LedgerBridgeKeyring.type, DebugKeyring.type, AragonKeyring.type]
 const EthQuery = require('eth-query')
 const ethUtil = require('ethereumjs-util')
 const sigUtil = require('eth-sig-util')
@@ -148,7 +150,7 @@ module.exports = class MetamaskController extends EventEmitter {
     })
 
     // key mgmt
-    const additionalKeyrings = [TrezorKeyring, LedgerBridgeKeyring]
+    const additionalKeyrings = [TrezorKeyring, LedgerBridgeKeyring, DebugKeyring, AragonKeyring]
     this.keyringController = new KeyringController({
       keyringTypes: additionalKeyrings,
       initState: initState.KeyringController,
@@ -857,8 +859,7 @@ module.exports = class MetamaskController extends EventEmitter {
    * @param  {Function} cb - A callback function called with a state update on success.
    */
   async importAccountWithStrategy (strategy, args) {
-    const privateKey = await accountImporter.importAccount(strategy, args)
-    const keyring = await this.keyringController.addNewKeyring('Simple Key Pair', [ privateKey ])
+    const keyring = await accountImporter.importAccount(strategy, args, this.keyringController)
     const accounts = await keyring.getAccounts()
     // update accounts in preferences controller
     const allAccounts = await this.keyringController.getAccounts()
