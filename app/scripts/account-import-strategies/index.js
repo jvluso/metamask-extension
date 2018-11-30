@@ -4,14 +4,21 @@ const ethUtil = require('ethereumjs-util')
 
 const accountImporter = {
 
-  importAccount (strategy, args) {
+  async importAccount (strategy, args, keyringController) {
     try {
       const importer = this.strategies[strategy]
-      const privateKeyHex = importer.apply(null, args)
-      return Promise.resolve(privateKeyHex)
+      const keyringArgs = importer.apply(null, args)
+      return await keyringController.addNewKeyring(this.keyringType[strategy], keyringArgs)
     } catch (e) {
       return Promise.reject(e)
     }
+  },
+
+  keyringType: {
+    'Private Key': 'Simple Key Pair',
+    'JSON File': 'Simple Key Pair',
+    'Debug': 'Debug Key',
+    'Dao': 'Aragon Key'
   },
 
   strategies: {
@@ -28,7 +35,7 @@ const accountImporter = {
       }
 
       const stripped = ethUtil.stripHexPrefix(prefixed)
-      return stripped
+      return [stripped]
     },
     'JSON File': (input, password) => {
       let wallet
@@ -42,7 +49,13 @@ const accountImporter = {
         wallet = Wallet.fromV3(input, password, true)
       }
 
-      return walletToPrivateKey(wallet)
+      return [walletToPrivateKey(wallet)]
+    },
+    'Debug': (props) => {
+      return props 
+    },
+    'Dao': (props) => {
+      return props 
     },
   },
 

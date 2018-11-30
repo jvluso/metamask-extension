@@ -844,6 +844,26 @@
     "message": "Paste your private key string here:",
     "description": "For importing an account from a private key"
   },
+  "pasteParentAddress": {
+    "message": "Paste your base address here:",
+    "description": "For importing an account from a DAO"
+  },
+  "pasteForwardingAddress": {
+    "message": "Paste your app address here:",
+    "description": "For importing an account from a DAO"
+  },
+  "pasteEnsAddress": {
+    "message": "Paste your ENS address here:",
+    "description": "For importing an account from a DAO"
+  },
+  "debug":{
+    "message": "Debug",
+    "description": "select this type of file to use to import an account"
+  },
+  "pasteDebugAddress": {
+    "message": "Paste your address here:",
+    "description": "For importing an account for debugging"
+  },
   "pasteDaoAddress": {
     "message": "Paste your DAO address here:",
     "description": "For importing an account from a DAO"
@@ -877,6 +897,10 @@
   },
   "privateKey": {
     "message": "Private Key",
+    "description": "select this type of file to use to import an account"
+  },
+  "dao": {
+    "message": "Dao",
     "description": "select this type of file to use to import an account"
   },
   "privateKeyWarning": {

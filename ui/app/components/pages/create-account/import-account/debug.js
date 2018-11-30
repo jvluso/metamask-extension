@@ -9,14 +9,14 @@ const actions = require('../../../../actions')
 const { DEFAULT_ROUTE } = require('../../../../routes')
 import Button from '../../../button'
 
-DaoImportView.contextTypes = {
+DebugImportView.contextTypes = {
   t: PropTypes.func,
 }
 
 module.exports = compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(DaoImportView)
+)(DebugImportView)
 
 
 function mapStateToProps (state) {
@@ -37,60 +37,25 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-inherits(DaoImportView, Component)
-function DaoImportView () {
+inherits(DebugImportView, Component)
+function DebugImportView () {
   this.createKeyringOnEnter = this.createKeyringOnEnter.bind(this)
   Component.call(this)
 }
 
-DaoImportView.prototype.render = function () {
+DebugImportView.prototype.render = function () {
   const { error, displayWarning } = this.props
 
   return (
     h('div.new-account-import-form__private-key', [
 
-      h('span.new-account-create-form__instruction', this.context.t('pasteEnsAddress')),
+      h('span.new-account-create-form__instruction', this.context.t('pasteDebugAddress')),
 
-      h('div.new-account-import-form__ens-address-password-container', [
-
-        h('input.new-account-import-form__input-password', {
-          type: 'text',
-          id: 'ens-box',
-          onKeyPress: e => this.createKeyringOnEnter(e),
-        }),
-
-      ]),
-
-      h('span.new-account-create-form__instruction', this.context.t('pasteParentAddress')),
-
-      h('div.new-account-import-form__parent-address-password-container', [
+      h('div.new-account-import-form__debug-address-password-container', [
 
         h('input.new-account-import-form__input-password', {
           type: 'text',
-          id: 'parent-box',
-          onKeyPress: e => this.createKeyringOnEnter(e),
-        }),
-
-      ]),
-      h('span.new-account-create-form__instruction', this.context.t('pasteForwardingAddress')),
-
-      h('div.new-account-import-form__forwarding-address-password-container', [
-
-        h('input.new-account-import-form__input-password', {
-          type: 'text',
-          id: 'forwarding-box',
-          onKeyPress: e => this.createKeyringOnEnter(e),
-        }),
-
-      ]),
-
-      h('span.new-account-create-form__instruction', this.context.t('pasteDaoAddress')),
-
-      h('div.new-account-import-form__dao-address-password-container', [
-
-        h('input.new-account-import-form__input-password', {
-          type: 'text',
-          id: 'dao-box',
+          id: 'debug-box',
           onKeyPress: e => this.createKeyringOnEnter(e),
         }),
 
@@ -122,22 +87,19 @@ DaoImportView.prototype.render = function () {
   )
 }
 
-DaoImportView.prototype.createKeyringOnEnter = function (event) {
+DebugImportView.prototype.createKeyringOnEnter = function (event) {
   if (event.key === 'Enter') {
     event.preventDefault()
     this.createNewKeychain()
   }
 }
 
-DaoImportView.prototype.createNewKeychain = function () {
+DebugImportView.prototype.createNewKeychain = function () {
   var opts = {}
-  opts.dao = document.getElementById('dao-box').value
-  opts.ens = document.getElementById('ens-box').value
-  opts.forwardingAddress = document.getElementById('forwarding-box').value
-  opts.parentAddress = document.getElementById('parent-box').value
+  opts.mockAddresses = [document.getElementById('debug-box').value]
   const { importNewAccount, history, displayWarning, setSelectedAddress, firstAddress } = this.props
 
-  importNewAccount('Dao', [ opts ])
+  importNewAccount('Debug', [ opts ])
     .then(({ selectedAddress }) => {
       if (selectedAddress) {
         history.push(DEFAULT_ROUTE)
